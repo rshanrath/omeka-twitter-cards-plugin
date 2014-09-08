@@ -2,7 +2,7 @@
 
 A plugin to include [Twitter Card](https://dev.twitter.com/cards) tags on Omeka Item pages.  
 
-Tags for Twitter Card summary cards are added to Item pages for items that include Title and Description metadata.  For items with files, an thumbnail image URL is included.
+Tags for Twitter Card summary cards are added to Item pages for items that include dc.title and dc.description metadata.  For items with a file that has a thumbnail, a thumbnail image URL is added.
 
 ## Configuration
 
