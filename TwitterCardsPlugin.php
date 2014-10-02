@@ -20,9 +20,8 @@ class TwitterCardsPlugin extends Omeka_Plugin_AbstractPlugin
   public function hookPublicHead($args)
   {
    
-    // Default to site title and description
-    $title = option('site_title');
-    $description = option('description');
+    $title = '';
+    $description = '';
     $image_url = '';
 
     // Is the curent record an item?  Use its metadata.
@@ -51,6 +50,12 @@ class TwitterCardsPlugin extends Omeka_Plugin_AbstractPlugin
     }
     catch (Omeka_View_Exception $ove){
       //  no collection, don't do anything
+    }
+
+    // Default to the site settings if we didn't find anything else to use
+    if (strlen($title) < 1 || strlen($description) < 1){
+      $title = option('site_title');
+      $description = option('description');
     }
 
     if (strlen($title) > 0 && strlen($description) > 0){
