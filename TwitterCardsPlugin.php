@@ -61,9 +61,9 @@ class TwitterCardsPlugin extends Omeka_Plugin_AbstractPlugin
     if (strlen($title) > 0 && strlen($description) > 0){
       echo '<meta property="twitter:card" content="summary" />';
       echo '<meta property="twitter:site" content="'.get_option(TWITTER_CARDS_SITE_HANDLE_OPTION).'" />';
-      echo '<meta property="twitter:title" content="'.$title.'" />';
-      echo '<meta property="twitter:description" content="'.$description.'" />';
-
+      echo '<meta property="twitter:title" content="'.strip_formatting($title).'" />';
+      echo '<meta property="twitter:description" content="'.strip_formatting($description).'" />';
+      
       if (strlen($image_url) > 0){
         echo '<meta property="twitter:image:src" content="'.$image_url.'" />';
       }
