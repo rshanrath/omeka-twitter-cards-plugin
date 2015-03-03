@@ -29,9 +29,14 @@ class TwitterCardsPlugin extends Omeka_Plugin_AbstractPlugin
       $exhibit = get_current_record('exhibit');
       $title = metadata($exhibit, 'title', array('no_escape' => false));
       $description = metadata($exhibit, 'description',array('no_escape' => false));
+
+      $file = $exhibit->getFile();
+      if($file){
+        $image_url = file_display_url($file, 'thumbnail');
+      }
     }
     catch (Omeka_View_Exception $ove){
-      //  no collection, don't do anything
+      //  no exhibit, don't do anything
     }
 
     // Is the curent record an item?  Use its metadata.
@@ -42,7 +47,7 @@ class TwitterCardsPlugin extends Omeka_Plugin_AbstractPlugin
       if (strlen($title) > 0 && strlen($description) > 0){
         foreach (loop('files', $item->Files) as $file){
           if($file->hasThumbnail()){
-            $image_url = file_display_url($file, 'square_thumbnail');
+            $image_url = file_display_url($file, 'thumbnail');
             break;
           }
         }
@@ -54,9 +59,14 @@ class TwitterCardsPlugin extends Omeka_Plugin_AbstractPlugin
 
     // Is the curent record an collection?  Use its metadata.
     try {
-      $item = get_current_record('collection');
+      $collection = get_current_record('collection');
       $title = metadata('collection', array('Dublin Core', 'Title'));
       $description = metadata('collection', array('Dublin Core', 'Description'));
+
+      $file = $collection->getFile();
+      if($file){
+        $image_url = file_display_url($file, 'thumbnail');
+      }
     }
     catch (Omeka_View_Exception $ove){
       //  no collection, don't do anything
@@ -66,6 +76,15 @@ class TwitterCardsPlugin extends Omeka_Plugin_AbstractPlugin
     if (strlen($title) < 1 || strlen($description) < 1){
       $title = option('site_title');
       $description = option('description');
+      $items = get_random_featured_items(1, true);
+      if (isset($items[0])){
+        foreach (loop('files', $items[0]->Files) as $file){
+          if($file->hasThumbnail()){
+            $image_url = file_display_url($file, 'thumbnail');
+            break;
+          }
+        }      
+      }
     }
 
     if (strlen($title) > 0 && strlen($description) > 0){
